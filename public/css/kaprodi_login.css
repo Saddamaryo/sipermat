@@ -1,0 +1,42 @@
+@import "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif; 
+    background: #12072e; 
+}
+
+.signin-card {
+  max-width: 350px;
+  border-radius: 10px;
+  border-color: black;
+  margin: 20px auto;
+  padding: 20px;   
+  background-color: aliceblue; 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .19),
+  0 6px 6px rgba(0, 0, 0, .23); 
+}
+
+.signin-card { 
+    text-align: center;
+  }    
+
+/* -- font styles ------------------------------------- */
+.display1 {
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.2;
+  color: #12073e;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+.subhead {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: #212121;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+

@@ -1,0 +1,785 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.text-main {
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.text-second {
+    font-family: 'Poppins', sans-serif;
+}
+
+.text-footer{
+    font-family: 'Poppins', sans-serif;
+    color: whitesmoke;
+}
+
+.btn-rounded {
+    border-radius: 5px;
+}
+
+
+
+body {
+    background-color: #edfdfd;
+}
+
+.wrap-login {
+    background-color: #13072e;
+    min-height: 100vh;
+    overflow: auto;
+}
+
+.header {
+    width: auto;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+.navbar {
+    background-color: #13072e;
+    border-radius: 20px;
+    margin: 10px 10px 10px 10px;
+    
+}
+
+.navbar-brand h1 {
+    color: #edfdfd;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #edfdfd;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.4px;
+    padding: 10px 20px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: orange;
+}
+
+
+.dropdown-menu {
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+.dropdown-menu a {
+    color: #434343;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+    text-decoration: underline;
+}
+
+.user-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.navbar-brand {
+    margin-right: auto;
+}
+
+.icon-for-user {
+    margin-left: auto;
+}
+/* banner */
+section.banner {
+    background-color: #eca1a6;
+}
+
+.banner-text p {
+    color: #434343;
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+}
+
+.banner-text h1 {
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 3.625rem;
+}
+
+.banner-text p:last-of-type {
+    color: #434343;
+    font-weight: 300;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+    margin: -10px 0 20px 0;
+}
+
+.banner-text a {
+    display: inline-block;
+    background-color: #434343;
+    height: 45px;
+    width: 155px;
+    color: #EFEFEF;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    padding: 13px 0;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+}
+
+.banner-text a:hover {
+    background-color: #2c6c88;
+}
+
+
+
+
+section .title-product h2 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #3A3A3A;
+}
+
+.ag-format-container {
+    width: 1142px;
+    margin: 0 auto;
+}
+
+.ag-courses_box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 50px 0;
+
+}
+
+.ag-courses_item {
+    -ms-flex-preferred-size: calc(33.33333% - 30px);
+    flex-basis: calc(33.33333% - 30px);
+
+    margin: 0 15px 30px;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+    box-shadow: 0px 12px 24px rgba(84, 116, 129, 0.29);
+
+}
+
+.ag-courses-item_link {
+    display: block;
+    padding: 30px 20px;
+    background-color: #13072e;
+
+    overflow: hidden;
+    text-decoration: none;
+
+    position: relative;
+}
+
+.ag-courses-item_link:hover,
+.ag-courses-item_link:hover .ag-courses-item_date {
+    text-decoration: none;
+    color: #FFF;
+}
+
+.ag-courses-item_link:hover .ag-courses-item_bg {
+    -webkit-transform: scale(10);
+    -ms-transform: scale(10);
+    transform: scale(10);
+}
+
+.ag-courses-item_title {
+    min-height: 87px;
+    margin: 0 0 25px;
+
+    overflow: hidden;
+
+    font-weight: 600;
+    font-size: 30px;
+    color: aliceblue;
+    z-index: 2;
+    position: relative;
+
+}
+
+.ag-courses-item_date-box {
+    font-size: 18px;
+    color: aliceblue;
+
+    z-index: 2;
+    position: relative;
+}
+
+.ag-courses-item_date {
+    font-weight: bold;
+    color: #f9b234;
+
+    -webkit-transition: color .5s ease;
+    -o-transition: color .5s ease;
+    transition: color .5s ease
+}
+
+.ag-courses-item_bg {
+    height: 128px;
+    width: 128px;
+    background-color: #f9b234;
+
+    z-index: 1;
+    position: absolute;
+    top: -75px;
+    right: -75px;
+
+    border-radius: 60%;
+
+    -webkit-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+.ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+    background-color: #3ecd5e;
+}
+
+.ag-courses_item:nth-child(3n) .ag-courses-item_bg {
+    background-color: #e44002;
+}
+
+.ag-courses_item:nth-child(4n) .ag-courses-item_bg {
+    background-color: #952aff;
+}
+
+.ag-courses_item:nth-child(5n) .ag-courses-item_bg {
+    background-color: #cd3e94;
+}
+
+.ag-courses_item:nth-child(6n) .ag-courses-item_bg {
+    background-color: #4c49ea;
+}
+
+.container-custom {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-custom {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom {
+    background-color: #28a745;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.btn-custom:hover {
+    background-color: #218838;
+    color: white;
+}
+
+.text-main {
+    color: #343a40;
+}
+
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 30px;
+}
+
+.profile-info {
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-info span {
+    display: block;
+    font-weight: bold;
+}
+
+.profile-settings {
+    padding: 30px;
+}
+
+.labels {
+    font-weight: bold;
+}
+
+.btn-edit-password {
+    margin-top: 20px;
+}
+
+
+
+.status.delivered {
+    padding: 2px 4px;
+    background: #8de02c;
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .status.pending {
+    padding: 2px 4px;
+    background: #e9b10a;
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .status.return {
+    padding: 2px 4px;
+    background: #f00;
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .status.inProgress {
+    padding: 2px 4px;
+    background: #1795ce;
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+
+  /* FOOTER */
+
+footer {
+    min-height: 381px;
+    background-image: linear-gradient(#13072e, #3f1282);
+    padding: 90px 0 20px 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+
+footer .footer-brand h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: aliceblue;
+}
+
+
+footer .footer-item-content h3 {
+    color: aliceblue;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+footer .footer-item-content>p a {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: aliceblue;
+    font-size: 16px;
+    text-align: left;
+}
+
+footer .footer-item-content a.ig-icon {
+    display: block;
+    width: 23px;
+    margin-left: 0px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: aliceblue;
+}
+
+.copyright-content p {
+    letter-spacing: 1px;
+    color: aliceblue;
+}
+
+  
+  
+
+
+
+@media only screen and (max-width: 979px) {
+    .ag-courses_item {
+        -ms-flex-preferred-size: calc(50% - 30px);
+        flex-basis: calc(50% - 30px);
+    }
+
+    .ag-courses-item_title {
+        font-size: 24px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .ag-format-container {
+        width: 96%;
+    }
+
+}
+
+@media only screen and (max-width: 639px) {
+    .ag-courses_item {
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+    }
+
+    .ag-courses-item_title {
+        min-height: 72px;
+        line-height: 1;
+
+        font-size: 24px;
+    }
+
+    .ag-courses-item_link {
+        padding: 22px 40px;
+    }
+
+    .ag-courses-item_date-box {
+        font-size: 16px;
+    }
+}
+
+
+
+
+
+
+/* Responsive Mobile  */
+@media screen and (max-width: 575.98px) {
+    /* Gaya untuk tombol hamburger dan dropdown */
+    .menu-toggle, .user-toggle {
+        display: block;
+        cursor: pointer;
+    }
+
+
+    nav.main-nav {
+        padding: 0.9375rem;
+        position: relative;
+    }
+
+    .brand {
+        order: 2;
+        height: 30px;
+        text-align: center;
+        padding-left: 1.5rem;
+    }
+
+    nav .brand h1 {
+        height: 30px;
+        line-height: 30px;
+        padding-top: 2px;
+        font-size: 23px;
+    }
+
+    nav .icon-for-user {
+        order: 3;
+    }
+
+    nav .icon-for-user a {
+        display: inline-block;
+        text-decoration: none;
+        padding-right: 10px;
+    }
+
+    nav .links {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 70%;
+        height: calc(100vh - 60px);
+        background-color: #FBFBFB;
+        z-index: 1;
+        padding: 1rem 2rem;
+        transform: translateX(-100%);
+        transition: transform 500ms ease;
+    }
+
+    nav .links.show {
+        transform: translateX(0%);
+        transition: transform 500ms ease;
+    }
+
+    nav .links ul {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: unset;
+        height: 100vh;
+        width: 100%;
+    }
+
+    nav .links ul li:first-child {
+        margin-top: 1rem;
+    }
+
+    nav .links ul li {
+        margin-bottom: 2rem;
+    }
+
+    nav .links ul li .search {
+        display: block;
+        border: 1px solid lightgray;
+        border-radius: 3px;
+    }
+
+    nav .links ul li a {
+        font-size: 20px;
+    }
+
+    nav .menu {
+        display: block;
+        order: 1;
+        cursor: pointer;
+    }
+
+
+    .datatemplate{
+        display: none;
+    }
+
+    .embed-responsive-item{
+        display: none;
+    }
+
+    /* Banner */
+
+    .banner-text {
+        padding-top: 36px;
+        padding-bottom: 36px;
+    }
+
+    .banner-text p {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .banner-text h1 {
+        font-size: 40px;
+        line-height: 3.3rem;
+    }
+
+    .banner-text p:last-of-type {
+        font-size: 17px;
+        letter-spacing: 0.5px;
+        text-align: left;
+        line-height: 1.8rem;
+    }
+
+    .banner-text a {
+        padding: 12px 0;
+    }
+
+    /* Top Collection */
+
+    section .title-product h2 {
+        font-size: 21px;
+        letter-spacing: 1px;
+        
+    }
+
+    .text-products .text-show-all a {
+        font-size: 12px;
+    }
+
+    .product>.bg-white {
+        max-width: 270px;
+        min-height: 312px;
+        margin: 20px auto;
+    }
+
+    /* Footer */
+
+    footer {
+        padding: 80px 0 20px 0;
+    }
+
+    .footer-items .footer-item {
+        margin-bottom: 1rem;
+    }
+
+    .footer-items .footer-item:last-child {
+        margin-bottom: 0;
+    }
+
+    /* End Responsive Mobile Homepage */
+
+
+}
+
+
+/* Responsive Tablet */
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+    /* Responsive Mobile Homepage */
+
+    /* Navigasi */
+
+    nav.main-nav {
+        padding: 0.9375rem;
+        position: relative;
+    }
+
+    .brand {
+        order: 2;
+        height: 30px;
+        text-align: center;
+        padding-left: 1.5rem;
+    }
+
+    nav .brand h1 {
+        height: 30px;
+        line-height: 30px;
+        padding-top: 2px;
+        font-size: 23px;
+    }
+
+    nav .icon-for-user {
+        order: 3;
+    }
+
+    nav .icon-for-user a {
+        display: inline-block;
+        text-decoration: none;
+        padding-right: 10px;
+    }
+
+    nav .links {
+        /* display: none; */
+
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 90%;
+        height: calc(100vh - 60px);
+        background-color: #FBFBFB;
+        z-index: 1;
+        padding: 1rem 2rem;
+        transform: translateX(-100%);
+        transition: transform 500ms ease;
+    }
+
+    nav .links.show {
+        transform: translateX(0%);
+        transition: transform 500ms ease;
+    }
+
+    nav .links ul {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: unset;
+        height: 100vh;
+        width: 100%;
+    }
+
+    nav .links ul li:first-child {
+        margin-top: 1rem;
+    }
+
+    nav .links ul li {
+        margin-bottom: 2rem;
+    }
+
+    nav .links ul li .search {
+        display: block;
+        border: 1px solid lightgray;
+        border-radius: 3px;
+    }
+
+    nav .links ul li a {
+        font-size: 20px;
+    }
+
+    nav .menu {
+        display: block;
+        order: 1;
+        cursor: pointer;
+    }
+
+
+    /* Banner */
+
+    .pad-tab {
+        padding: 1.8rem;
+    }
+
+    .banner-text p {
+        font-size: 1rem;
+    }
+
+    .banner-text h1 {
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-size: 3rem;
+    }
+
+    .banner-text p:last-of-type {
+        font-size: 1rem;
+    }
+
+    .banner-text a {
+        height: 42px;
+        width: 140px;
+        font-size: 14px;
+    }
+
+
+    /* Top Collection */
+
+    section .title-product h2 {
+        font-size: 25px;
+        margin-bottom: 0;
+    }
+
+    .text-products .text-show-all a {
+        font-size: 1rem;
+    }
+
+    footer {
+        min-height: 381px;
+        background-color: #7cac97;
+        padding: 55px 0 10px 0;
+    }
+
+    .copyright-content p {
+        letter-spacing: 1px;
+        font-size: .9rem;
+        color: #434343;
+    }
+
+}

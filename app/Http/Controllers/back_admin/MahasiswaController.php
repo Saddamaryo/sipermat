@@ -58,6 +58,13 @@ class MahasiswaController extends Controller
                 if ($existingUser) {
                     return back()->with('error', 'Email atau NIM sudah ada dalam database.');
                 }
+    
+                // Validasi prodi_mahasiswa
+                $allowedProdi = ["Ilmu Komputer", "Pendidikan Matematika", "Matematika", "Statistika"];
+                if (!in_array($row['prodi_mahasiswa'], $allowedProdi)) {
+                    return back()->with('error', 'Prodi mahasiswa harus salah satu dari: Ilmu Komputer, Pendidikan Matematika, Matematika, Statistika.');
+                }
+    
                 User::create([
                     'nama_mahasiswa' => $row['nama_mahasiswa'],
                     'nim_mahasiswa' => $row['nim_mahasiswa'],
@@ -72,10 +79,10 @@ class MahasiswaController extends Controller
             return back()->with('success', 'Berhasil menambah data mahasiswa secara masal');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal menambah data mahasiswa. ');
+            return back()->with('error', 'Gagal menambah data mahasiswa.');
         }
-
     }
+    
 
 
     /**

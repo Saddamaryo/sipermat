@@ -44,7 +44,6 @@ class PimpinanController extends Controller
             ['nama_pimpinan' => 'required',
             'nip_pimpinan' => 'required',
             'jabatan_pimpinan' => 'required',
-            'slug_jabatan' => 'required',
             'prodi_pimpinan' => ''
         ]
         );

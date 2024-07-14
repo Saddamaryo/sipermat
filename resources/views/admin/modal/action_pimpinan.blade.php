@@ -30,12 +30,6 @@
                                 value="{{ old('jabatan_pimpinan', $item->jabatan_pimpinan) }}">
                         </div>
 
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Singkatan</label>
-                            <input type="text" class="form-control" id="jabatan_pimpinan" name="slug_jabatan"
-                                value="{{ old('slug_jabatan', $item->slug_jabatan) }}">
-                        </div>
-
                         @if ($item->prodi_pimpinan !=null)
                         <div class="mb-3">
                             <label for="recipient-name" class="col-form-label">Prodi Pimpinan</label>
@@ -54,9 +48,8 @@
     </div>
 @endforeach
 
-
+<!--
 @foreach ($pimpinan as $item)
-    <!-- Delete Modal -->
     <div class="modal fade" id="delete{{ $item->id }}" tabindex="-1" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -82,5 +75,5 @@
             </div>
         </div>
     </div>
-@endforeach
+@endforeach-->
 

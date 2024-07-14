@@ -28,685 +28,179 @@ class PengajuanSuratmhsController extends Controller
     }
 
     #DOWNLOAD SURAT CONTROLLER
-    public function cekexportilkom($id)
+    public function cekexport($id)
     {
         $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', ' Ilmu Komputer')->get();
+        $prodi_mahasiswa = $cekdata->prodi_mahasiswa;
         $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
+
+        if ($prodi_mahasiswa == 'Ilmu Komputer') {
+            $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Ilmu Komputer')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
+        } elseif ($prodi_mahasiswa == 'Pendidikan Matematika') {
+            $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Pendidikan Matematika')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Pendidikan Matematika')->first();
+        } elseif ($prodi_mahasiswa == 'Statistika') {
+            $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Statistika')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Statistika')->first();
+        } elseif ($prodi_mahasiswa == 'Matematika') {
+            $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Matematika')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Matematika')->first();
+        } else {
+            return back()->with('error', 'Prodi tidak dikenal.');
+        }
+
         $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
+
+        $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
+        if ($ceksurat1 == 's-rekom') {
+            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
         } elseif ($ceksurat1 == 's-skrip') {
             $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
         }
-    }
 
-    public function cekexportpenmat($id)
-    {
-        $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Pendidikan Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Pendidikan Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
         if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'oblapangan-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.suratpermintaandata', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf';
+        } elseif ($ceksurat1 == 's-kkl') {
+            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat KKL-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat Transkrip-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat PKM-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat Penelitian-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf';
+        } elseif ($ceksurat1 == 's-km') {
+            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
+            $filename = 'Surat PKL-' . Carbon::now()->timestamp . '.pdf';
         } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
+            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $filename = 'Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf';
+        } else {
+            return back()->with('error', 'Jenis surat tidak dikenal.');
         }
+
+        return $pdf->stream($filename);
     }
 
-    public function cekexportstat($id)
-    {
-        $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Statistika')->get();
-        $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Statistika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
-
-    public function cekexportmat($id)
-    {
-        $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
-
-    public function exporttugasmat($id)
+    public function exporttugas($id)
     {
         $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Matematika')->get();
         $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
+        $prodi_mahasiswa = $cekdata->prodi_mahasiswa;
 
-    public function exporttugasilkom($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Ilmu Komputer')->get();
-        $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
+        if ($prodi_mahasiswa == 'Matematika') {
+            $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Matematika')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Matematika')->first();
+        } elseif ($prodi_mahasiswa == 'Ilmu Komputer') {
+            $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Ilmu Komputer')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
+        } elseif ($prodi_mahasiswa == 'Pendidikan Matematika') {
+            $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Pendidikan Matematika')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Pendidikan Matematika')->first();
+        } elseif ($prodi_mahasiswa == 'Statistika') {
+            $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Statistika')->get();
+            $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Statistika')->first();
+        } else {
+            return back()->with('error', 'Jenis surat tidak dikenal.');
         }
-    }
-    public function exporttugaspenmat($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Pendidikan Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
-    public function exporttugasstat($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Statistika')->get();
-        $ceksurat1 = $cekdata->slug;
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Statistika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
 
+        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
+
+        if ($ceksurat1 == 's-skrip') {
+            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
+            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
+        }
+    }
 
 
 
 
     #PREVIEW SURAT CONTROLLER
-    public function previewilkom($id)
+    public function preview($id, $prodi)
     {
         $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', ' Ilmu Komputer')->get();
+        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', $prodi)->get();
         $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
+        $prodikaprodi = Kaprodi::where('prodi_kaprodi', $prodi)->first();
         $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
+
+        $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
+
         if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratpermintaandata', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+        } elseif ($ceksurat1 == 's-kkl') {
+            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-skrip') {
             $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+        } elseif ($ceksurat1 == 's-km') {
+            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             $pdf->set_option('isRemoteEnabled', true);
             return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
         } elseif ($ceksurat1 == 's-rekom') {
             $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
             return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
-
-    public function previewpenmat($id)
-    {
-        $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Pendidikan Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Pendidikan Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
+        } else {
+            abort(404);
         }
     }
 
 
-    public function previewstat($id)
-    {
-        $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Statistika')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Statistika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
+    public function previewtugas($id)
+{
+    $cekdata = Pengajuansurattugas::findOrFail($id);
+    $prodi_mahasiswa = $cekdata->prodi_mahasiswa;
+    $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', $prodi_mahasiswa)->get();
+    $ceksurat1 = $cekdata->slug;
+    $prodikaprodi = Kaprodi::where('prodi_kaprodi', $prodi_mahasiswa)->first();
+    $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
+    
+    $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
 
-    public function previewmat($id)
-    {
-        $cekdata = Pengajuansurat::findOrFail($id);
-        $cekprodi = Pengajuansurat::where('prodi_mahasiswa', 'Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
+    if ($ceksurat1 == 's-skrip') {
+        $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi', 'jabatanpimpinan', 'prodikaprodi', 'filettd'));
+        return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
     }
-
-    public function previewilkomtugas($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', ' Ilmu Komputer')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Ilmu Komputer')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
+    else{
+        abort(404);
     }
-
-    public function previewpenmattugas($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Pendidikan Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Pendidikan Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
-
-    public function previewstattugas($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Statistika')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Statistika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
-
-    public function previewmattugas($id)
-    {
-        $cekdata = Pengajuansurattugas::findOrFail($id);
-        $cekprodi = Pengajuansurattugas::where('prodi_mahasiswa', 'Matematika')->get();
-        $ceksurat1 = $cekdata->slug;
-        //$kuy = pimpinan::Select('pimpinan')->where('prodi_pimpinan', '=', $user)->first();
-        $prodikaprodi = Kaprodi::where('prodi_kaprodi', 'Matematika')->first();
-        $filettd = public_path('storage/app/public/file_ttd/' . $prodikaprodi->file_ttd);
-        if ($ceksurat1 == 's-pol') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpengajuanobservasilapangan', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('oblapangan-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pd') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpermintaandata',  compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Permintaan Data' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-kkl') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratkkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat KKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-trans') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.surattranskripnilai', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Transkrip-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkm') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkm', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat PKM-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pen') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpenelitian', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Penelitian-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-skrip') {
-            $jabatanpimpinan = pimpinan::where('jabatan_pimpinan', 'Wakil Dekan Bidang Akademik FMIPA')->first();
-            $pdf = Pdf::loadView('user.pdf.suratskripsi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Nota Dinas Skripsi-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-km') { #
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratketeranganmahasiswa', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Ket mhs-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-pkl') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-1')->first();
-            $pdf = Pdf::loadView('user.pdf.suratpkl', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            $pdf->set_option('isRemoteEnabled', true);
-            return $pdf->stream('Surat PKL-' . Carbon::now()->timestamp . '.pdf');
-        } elseif ($ceksurat1 == 's-rekom') {
-            $jabatanpimpinan = pimpinan::where('slug_jabatan', 'WD-3')->first();
-            $pdf = Pdf::loadView('user.pdf.suratrekomendasi', compact('cekdata', 'cekprodi',  'jabatanpimpinan', 'prodikaprodi', 'filettd'));
-            return $pdf->stream('Surat Rekomendasi-' . Carbon::now()->timestamp . '.pdf');
-        }
-    }
+    
+}
 
 
     #DOWNLOAD SURAT MAHASISWA
@@ -1067,7 +561,7 @@ class PengajuanSuratmhsController extends Controller
             'formulir4' => '',
             'formulir5' => '',
             'formulir6' => '',
-            'file_ajuan' => 'file|mimes:pdf,doc,docx,xls,xlsx,csv,rtf,png,jpeg,jpg,zip,rar|max:2048', 
+            'file_ajuan' => 'file|mimes:pdf,doc,docx,xls,xlsx,csv,rtf,png,jpeg,jpg,zip,rar|max:2048',
             'nama_file_ajuan' => '',
             'file_acc' => '',
             'nama_file_cc' => '',
@@ -1132,7 +626,7 @@ class PengajuanSuratmhsController extends Controller
             'formulir4' => '',
             'formulir5' => '',
             'formulir6' => '',
-            'file_ajuan' => 'file|mimes:pdf,doc,docx,xls,xlsx,csv,rtf,png,jpeg,jpg,zip,rar|max:2048', 
+            'file_ajuan' => 'file|mimes:pdf,doc,docx,xls,xlsx,csv,rtf,png,jpeg,jpg,zip,rar|max:2048',
             'nama_file_ajuan' => '',
             'file_acc' => '',
             'nama_file_cc' => '',

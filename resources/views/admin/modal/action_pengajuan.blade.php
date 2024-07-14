@@ -264,7 +264,7 @@
                         <div class="mb-3">
                             <label for="" class="col-form-label">Nomor Urut Surat</label>
                             <input type="text" class="form-control" name="nomor_urut"
-                                placeholder = "{{ $item->nomor_urut }}" required readonly>
+                                placeholder = "{{ $item->nomor_urut }}" value="{{$item->nomor_urut}}" required readonly>
                         </div>
                     @else
                         <div class="mb-3">
@@ -371,34 +371,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id_pengajuan" value="{{ $item->id }}" id="id_pengajuan">
-                        <input type="hidden" name="status" value="Accepted" id="status">
-                        <input type="hidden" value="{{ $item->slug }}" name="slug" id="slug">
-                        <input type="hidden" value="{{ $item->id_surat }}" name="id_surat" id="id_surat">
-                        <input type="hidden" value="{{ $item->nama_surat }}" name="nama_surat" id="nama_surat">
-                        <input type="hidden" name="nomor_surat" value="{{ $item->nomor_surat }}" id="nomor_surat">
-                        <input type="hidden" name="id_user" value="{{ $item->id_user }}" id="id_user">
-                        <input type="hidden" class="form-control" id="nama_mahasiswa"
-                            value="{{ $item->nama_mahasiswa }}" name="nama_mahasiswa">
-                        <input type="hidden" class="form-control" id="prodi_mahasiswa"
-                            value="{{ $item->prodi_mahasiswa }}" name="prodi_mahasiswa">
-                        <input type="hidden" class="form-control" id="nim_mahasiswa"
-                            value="{{ $item->nim_mahasiswa }}" name="nim_mahasiswa">
-                        <input type="hidden" class="form-control" id="nomor_user" name="nomor_user"
-                            value="{{ $item->nomor_user }}">
-                        <input type="hidden" class="form-control" id="formulir1" name="formulir1"
-                            value="{{ $item->formulir1 }}">
-                        <input type="hidden" class="form-control" id="formulir2" name="formulir2"
-                            value="{{ $item->formulir2 }}">
-                        <input type="hidden" class="form-control" id="formulir3" name="formulir3"
-                            value="{{ $item->formulir3 }}">
-                        <input type="hidden" class="form-control" id="formulir4" name="formulir4"
-                            value="{{ $item->formulir4 }}">
-                        <input type="hidden" class="form-control" id="formulir5" name="formulir5"
-                            value="{{ $item->formulir5 }}">
-                        <input type="hidden" class="form-control" id="formulir6" name="formulir6"
-                            value="{{ $item->formulir6 }}">
-
+                        <input type="hidden" name="status" value="Selesai" id="status">
 
                         <div class="mb-3">
                             <label for="" class="col-form-label">Nama Lengkap
@@ -464,34 +437,7 @@
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id_pengajuan" value="{{ $item->id }}" id="id_pengajuan">
-                        <input type="hidden" name="status" value="Accepted" id="status">
-                        <input type="hidden" value="{{ $item->slug }}" name="slug" id="slug">
-                        <input type="hidden" value="{{ $item->id_surat }}" name="id_surat" id="id_surat">
-                        <input type="hidden" value="{{ $item->nama_surat }}" name="nama_surat" id="nama_surat">
-                        <input type="hidden" name="nomor_surat" value="{{ $item->nomor_surat }}" id="nomor_surat">
-                        <input type="hidden" name="id_user" value="{{ $item->id_user }}" id="id_user">
-                        <input type="hidden" class="form-control" id="nama_mahasiswa"
-                            value="{{ $item->nama_mahasiswa }}" name="nama_mahasiswa">
-                        <input type="hidden" class="form-control" id="prodi_mahasiswa"
-                            value="{{ $item->prodi_mahasiswa }}" name="prodi_mahasiswa">
-                        <input type="hidden" class="form-control" id="nim_mahasiswa"
-                            value="{{ $item->nim_mahasiswa }}" name="nim_mahasiswa">
-                        <input type="hidden" class="form-control" id="nomor_user" name="nomor_user"
-                            value="{{ $item->nomor_user }}">
-                        <input type="hidden" class="form-control" id="formulir1" name="formulir1"
-                            value="{{ $item->formulir1 }}">
-                        <input type="hidden" class="form-control" id="formulir2" name="formulir2"
-                            value="{{ $item->formulir2 }}">
-                        <input type="hidden" class="form-control" id="formulir3" name="formulir3"
-                            value="{{ $item->formulir3 }}">
-                        <input type="hidden" class="form-control" id="formulir4" name="formulir4"
-                            value="{{ $item->formulir4 }}">
-                        <input type="hidden" class="form-control" id="formulir5" name="formulir5"
-                            value="{{ $item->formulir5 }}">
-                        <input type="hidden" class="form-control" id="formulir6" name="formulir6"
-                            value="{{ $item->formulir6 }}">
-
+                        <input type="hidden" name="status" value="Selesai" id="status">
 
                         <div class="mb-3">
                             <label for="" class="col-form-label">Nama Lengkap
@@ -529,7 +475,7 @@
 
                         </div>
                         <div class="mb-3">
-                            <label for="" class="col-form-label">Input File Surat: Maksimal 2 MB </label>
+                            <label for="" class="col-form-label">Input File Surat Tugas: Maksimal 2 MB </label>
                             <input type="file" class="form-control" name="file_acc" id="file_acc">
                         </div>
                 </div>

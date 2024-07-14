@@ -5,8 +5,8 @@
         <div class="recentOrders">
             <div class="cardHeader">
                 <h2>Data Pimpinan</h2>
-                <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_tambahpimpinan">Tambah
-                    Data</button>
+                <!--<button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_tambahpimpinan">Tambah
+                    Data</button>-->
             </div>
 
             @if ($errors->any())
@@ -47,8 +47,8 @@
                             <td>
                                 <a href="#edit{{ $item->id }}" data-bs-toggle="modal"
                                     class="btn btn-outline-primary">Edit</a>
-                                <a href="#delete{{ $item->id }}" data-bs-toggle="modal"
-                                    class="btn btn-outline-danger">Delete</a>
+                                <!--<a href="#delete{{ $item->id }}" data-bs-toggle="modal"
+                                    class="btn btn-outline-danger">Delete</a>-->
                             </td>
                             @include('admin.modal.action_pimpinan')
                         </tr>
@@ -57,5 +57,4 @@
             </table>
         </div>
     </div>
-    @include('admin.modal.create_pimpinan')
 @endsection

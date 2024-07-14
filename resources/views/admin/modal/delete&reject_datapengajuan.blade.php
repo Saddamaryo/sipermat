@@ -85,29 +85,6 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="status" value="Ditolak" id="status">
-                        <input type="hidden" value="{{ $item->slug }}" name="slug" id="slug">
-                        <input type="hidden" value="{{ $item->id_surat }}" name="id_surat" id="id_surat">
-                        <input type="hidden" value="{{ $item->nama_surat }}" name="nama_surat"
-                            id="nama_surat">
-                        <input type="hidden" name="nomor_surat" value="{{ $item->nomor_surat }}"
-                            id="nomor_surat">
-                        <input type="hidden" name="id_user" value="{{ $item->id_user }}" id="id_user">
-                        <input type="hidden" class="form-control" id="nama_mahasiswa" required
-                            value="{{ $item->nama_mahasiswa }}" name="nama_mahasiswa">
-                        <input type="hidden" class="form-control" id="prodi_mahasiswa" required
-                            value="{{ $item->prodi_mahasiswa }}" name="prodi_mahasiswa">
-                        <input type="hidden" class="form-control" id="nim_mahasiswa" required
-                            value="{{ $item->nim_mahasiswa }}" name="nim_mahasiswa">
-                        <input type="hidden" class="form-control" id="nomor_user" required name="nomor_user"
-                            value="{{ $item->nomor_user }}">
-                        <input type="hidden" class="form-control" id="formulir2" required name="formulir2"
-                            value="{{ $item->formulir2 }}">
-                        <input type="hidden" class="form-control" id="formulir3" required name="formulir3"
-                            value="{{ $item->formulir3 }}">
-                        <input type="hidden" class="form-control" id="formulir4" required name="formulir4"
-                            value="{{ $item->formulir4 }}">
-                        <input type="hidden" name="formulir5" value="{{ $item->formulir5 }}" id="formullir5">
-                        <input type="hidden" name="formulir6" value="{{ $item->formulir6 }}" id="formullir6">
 
                         <div class="mb-3">
                             <label for="" class="col-form-label">Nama Lengkap
@@ -171,29 +148,6 @@
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="status" value="Ditolak" id="status">
-                        <input type="hidden" value="{{ $item->slug }}" name="slug" id="slug">
-                        <input type="hidden" value="{{ $item->id_surat }}" name="id_surat" id="id_surat">
-                        <input type="hidden" value="{{ $item->nama_surat }}" name="nama_surat"
-                            id="nama_surat">
-                        <input type="hidden" name="nomor_surat" value="{{ $item->nomor_surat }}"
-                            id="nomor_surat">
-                        <input type="hidden" name="id_user" value="{{ $item->id_user }}" id="id_user">
-                        <input type="hidden" class="form-control" id="nama_mahasiswa" required
-                            value="{{ $item->nama_mahasiswa }}" name="nama_mahasiswa">
-                        <input type="hidden" class="form-control" id="prodi_mahasiswa" required
-                            value="{{ $item->prodi_mahasiswa }}" name="prodi_mahasiswa">
-                        <input type="hidden" class="form-control" id="nim_mahasiswa" required
-                            value="{{ $item->nim_mahasiswa }}" name="nim_mahasiswa">
-                        <input type="hidden" class="form-control" id="nomor_user" required name="nomor_user"
-                            value="{{ $item->nomor_user }}">
-                        <input type="hidden" class="form-control" id="formulir2" required name="formulir2"
-                            value="{{ $item->formulir2 }}">
-                        <input type="hidden" class="form-control" id="formulir3" required name="formulir3"
-                            value="{{ $item->formulir3 }}">
-                        <input type="hidden" class="form-control" id="formulir4" required name="formulir4"
-                            value="{{ $item->formulir4 }}">
-                        <input type="hidden" name="formulir5" value="{{ $item->formulir5 }}" id="formullir5">
-                        <input type="hidden" name="formulir6" value="{{ $item->formulir6 }}" id="formullir6">
 
                         <div class="mb-3">
                             <label for="" class="col-form-label">Nama Lengkap

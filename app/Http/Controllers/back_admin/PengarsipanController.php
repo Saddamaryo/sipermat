@@ -164,27 +164,7 @@ class PengarsipanController extends Controller
     {
         $pengarsipansurat = $request->validate(
             [
-                'id_pengajuan' => '',
-                'id_surat' => 'required',
-                'id_user' => 'required',
-                'nama_surat' => 'required',
-                'slug' => 'required',
-                'nama_mahasiswa' => 'required',
-                'nomor_surat' => 'required',
-                'prodi_mahasiswa' => 'required',
-                'nim_mahasiswa' => 'required',
-                'nomor_user' => '',
-                'formulir1' => '',
-                'formulir2' => '',
-                'formulir3' => '',
-                'formulir4' => '',
-                'formulir5' => '',
-                'formulir6' => '',
-                'file_ajuan' => '',
-                'nama_file_ajuan' => '',
-                'file_acc' => '',
-                'nama_file_cc' => '',
-                'status' => ''
+                'status' => 'required'
             ]
         );
 
@@ -211,27 +191,7 @@ class PengarsipanController extends Controller
     {
         $pengarsipansurat = $request->validate(
             [
-                'id_pengajuan' => '',
-                'id_surat' => 'required',
-                'id_user' => 'required',
-                'nama_surat' => 'required',
-                'slug' => 'required',
-                'nama_mahasiswa' => 'required',
-                'nomor_surat' => 'required',
-                'prodi_mahasiswa' => 'required',
-                'nim_mahasiswa' => 'required',
-                'nomor_user' => '',
-                'formulir1' => '',
-                'formulir2' => '',
-                'formulir3' => '',
-                'formulir4' => '',
-                'formulir5' => '',
-                'formulir6' => '',
-                'file_ajuan' => '',
-                'nama_file_ajuan' => '',
-                'file_acc' => '',
-                'nama_file_cc' => '',
-                'status' => ''
+                'status' => 'required'
             ]
         );
 
@@ -260,26 +220,7 @@ class PengarsipanController extends Controller
         try {
             $rejectingsurat = $request->validate(
                 [
-                    'id_surat' => 'required',
-                    'id_user' => 'required',
-                    'nama_surat' => 'required',
-                    'nama_mahasiswa' => 'required',
-                    'nomor_surat' => 'required',
-                    'slug' => 'required',
-                    'prodi_mahasiswa' => 'required',
-                    'nim_mahasiswa' => 'required',
-                    'nomor_user' => '',
-                    'formulir1' => '',
-                    'formulir2' => '',
-                    'formulir3' => '',
-                    'formulir4' => '',
-                    'formulir5' => '',
-                    'formulir6' => '',
-                    'file_ajuan' => '',
-                    'nama_file_ajuan' => '',
-                    'file_acc' => '',
-                    'nama_file_cc' => '',
-                    'status' => ''
+                    'status' => 'required'
                 ]
             );
 
@@ -302,26 +243,7 @@ class PengarsipanController extends Controller
         try {
             $rejectingsurat = $request->validate(
                 [
-                    'id_surat' => 'required',
-                    'id_user' => 'required',
-                    'nama_surat' => 'required',
-                    'nama_mahasiswa' => 'required',
-                    'nomor_surat' => 'required',
-                    'slug' => 'required',
-                    'prodi_mahasiswa' => 'required',
-                    'nim_mahasiswa' => 'required',
-                    'nomor_user' => '',
-                    'formulir1' => '',
-                    'formulir2' => '',
-                    'formulir3' => '',
-                    'formulir4' => '',
-                    'formulir5' => '',
-                    'formulir6' => '',
-                    'file_ajuan' => '',
-                    'nama_file_ajuan' => '',
-                    'file_acc' => '',
-                    'nama_file_cc' => '',
-                    'status' => ''
+                    'status' => 'required'
                 ]
             );
 
@@ -345,27 +267,8 @@ class PengarsipanController extends Controller
     {
         $uploadmanual = $request->validate(
             [
-                'id_pengajuan' => 'required',
-                'id_surat' => 'required',
-                'id_user' => 'required',
-                'nama_surat' => 'required',
-                'slug' => 'required',
-                'nama_mahasiswa' => 'required',
-                'nomor_surat' => 'required',
-                'prodi_mahasiswa' => 'required',
-                'nim_mahasiswa' => 'required',
-                'nomor_user' => '',
-                'formulir1' => '',
-                'formulir2' => '',
-                'formulir3' => '',
-                'formulir4' => '',
-                'formulir5' => '',
-                'formulir6' => '',
-                'file_ajuan' => '',
-                'nama_file_ajuan' => '',
                 'file_acc' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg|max:2040',
-                'nama_file_cc' => '',
-                'status' => ''
+                'status' => 'required'
             ]
         );
         $fileacc = $request->file('file_acc');
@@ -396,27 +299,8 @@ class PengarsipanController extends Controller
     {
         $uploadmanual = $request->validate(
             [
-                'id_pengajuan' => 'required',
-                'id_surat' => 'required',
-                'id_user' => 'required',
-                'nama_surat' => 'required',
-                'slug' => 'required',
-                'nama_mahasiswa' => 'required',
-                'nomor_surat' => 'required',
-                'prodi_mahasiswa' => 'required',
-                'nim_mahasiswa' => 'required',
-                'nomor_user' => '',
-                'formulir1' => '',
-                'formulir2' => '',
-                'formulir3' => '',
-                'formulir4' => '',
-                'formulir5' => '',
-                'formulir6' => '',
-                'file_ajuan' => '',
-                'nama_file_ajuan' => '',
                 'file_acc' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg|max:2040',
-                'nama_file_cc' => '',
-                'status' => ''
+                'status' => 'required'
             ]
         );
         $fileacc = $request->file('file_acc');

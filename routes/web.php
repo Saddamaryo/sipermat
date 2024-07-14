@@ -59,25 +59,14 @@ Route::middleware('dataadmin')->group(function () {
     Route::resource('/suratmasuk', SuratMasukController::class);
     Route::put('ajukankaprodi/{id}', [PengajuanSuratMahasiswaController::class, 'ajukankaprodi']);
     Route::put('ajukankaproditugas/{id}', [PengajuanSuratMahasiswaController::class, 'ajukankaproditugas']);
-    
     Route::put('update_tugas/{id}', [PengajuanSuratMahasiswaController::class, 'update_tugas']);
     Route::delete('/delete_tugas/{id}', [PengajuanSuratMahasiswaController::class, 'delete_tugas'])->name('delete_tugas');
     Route::put('/rejecting_surat/{id}', [PengarsipanController::class, 'rejecting']);
     Route::put('/rejecting_tugas/{id}', [PengarsipanController::class, 'rejecting_tugas']);
     Route::get('/arsipsurattugasadmin', [PengarsipanController::class, 'arsip_surattugas']);
     Route::get('/cekexport/{id}', [PengajuanSuratmhsController::class, 'cekexport']);
-    Route::get('/cekexportpenmat/{id}', [PengajuanSuratmhsController::class, 'cekexportpenmat']);
-    Route::get('/cekexportilkom/{id}', [PengajuanSuratmhsController::class, 'cekexportilkom']);
-    Route::get('/cekexportmat/{id}', [PengajuanSuratmhsController::class, 'cekexportmat']);
-    Route::get('/cekexportstat/{id}', [PengajuanSuratmhsController::class, 'cekexportstat']);
-    Route::get('/exporttugasmat/{id}', [PengajuanSuratmhsController::class, 'exporttugasmat']);
-    Route::get('/exporttugasilkom/{id}', [PengajuanSuratmhsController::class, 'exporttugasilkom']);
-    Route::get('/exporttugaspenmat/{id}', [PengajuanSuratmhsController::class, 'exporttugaspenmat']);
-    Route::get('/exporttugasstat/{id}', [PengajuanSuratmhsController::class, 'exporttugasstat']);
-    Route::get('/previewilkom/{id}', [PengajuanSuratmhsController::class, 'previewilkom']);
-    Route::get('/previewmat/{id}', [PengajuanSuratmhsController::class, 'previewmat']);
-    Route::get('/previewpenmat/{id}', [PengajuanSuratmhsController::class, 'previewpenmat']);
-    Route::get('/previewstat/{id}', [PengajuanSuratmhsController::class, 'previewstat']);
+    Route::get('/exporttugas/{id}', [PengajuanSuratmhsController::class, 'exporttugas']);
+    Route::get('preview/{id}/{prodi}', [PengajuanSuratmhsController::class, 'preview']);
     Route::get('/exporttugas/{id}', [PengajuanSuratmhsController::class, 'exporttugas']);
     Route::put('/uploadmanual/{id}', [PengarsipanController::class, 'uploadmanual']);
     Route::put('/uploadmanual_tugas/{id}', [PengarsipanController::class, 'uploadmanual_tugas']);
@@ -133,8 +122,6 @@ Route::middleware('users')->group(function () {
     Route::get('/template_surat/{id}', [PengajuanSuratmhsController::class, 'details']);
     
 
-
-
 //KAPRODI ROUTE
 Route::middleware('kaprodi')->group(function () {
     Route::get('/dashboardkaprodi', [KaprodiController::class, 'dashboard_kaprodi'])->name('dashboard_kaprodi');
@@ -147,18 +134,10 @@ Route::middleware('kaprodi')->group(function () {
     Route::put('/rejecting_tugas_kaprodi/{id}', [PengarsipanController::class, 'rejecting_tugas']);
     Route::get('/downloadfile_kaprodi/{id}', [PengarsipanController::class, 'downloadfile_kaprodi'])->name('downloadfile_kaprodi');
     Route::get('/downloadfile_kaproditugas/{id}', [PengarsipanController::class, 'downloadfile_kaproditugas'])->name('downloadfile_kaproditugas');
-    Route::get('kaprodi/cekexportpenmat/{id}', [PengajuanSuratmhsController::class, 'cekexportpenmat']);
-    Route::get('kaprodi/cekexportilkom/{id}', [PengajuanSuratmhsController::class, 'cekexportilkom']);
-    Route::get('kaprodi/cekexportmat/{id}', [PengajuanSuratmhsController::class, 'cekexportmat']);
-    Route::get('kaprodi/cekexportstat/{id}', [PengajuanSuratmhsController::class, 'cekexportstat']);
-    Route::get('kaprodi/exporttugaspenmat/{id}', [PengajuanSuratmhsController::class, 'exporttugaspenmat']);
-    Route::get('kaprodi/exporttugasilkom/{id}', [PengajuanSuratmhsController::class, 'exporttugasilkom']);
-    Route::get('kaprodi/exporttugasmat/{id}', [PengajuanSuratmhsController::class, 'exporttugasmat']);
-    Route::get('kaprodi/exporttugasstat/{id}', [PengajuanSuratmhsController::class, 'exporttugasstat']);
-    Route::get('kaprodi/previewilkom/{id}', [PengajuanSuratmhsController::class, 'previewilkom']);
-    Route::get('kaprodi/previewmat/{id}', [PengajuanSuratmhsController::class, 'previewmat']);
-    Route::get('kaprodi/previewpenmat/{id}', [PengajuanSuratmhsController::class, 'previewpenmat']);
-    Route::get('kaprodi/previewstat/{id}', [PengajuanSuratmhsController::class, 'previewstat']);
+    Route::get('kaprodi/cekexport/{id}', [PengajuanSuratmhsController::class, 'cekexport']);
+    Route::get('kaprodi/exporttugas/{id}', [PengajuanSuratmhsController::class, 'exporttugas']);
+    Route::get('kaprodi/preview/{id}/{prodi}', [PengajuanSuratmhsController::class, 'preview']);
+    Route::get('kaprodi/previewtugas/{id}', [PengajuanSuratmhsController::class, 'previewtugas']);
     Route::get('/logout', [KaprodiController::class, 'logout'])->name('kaprodi_logout');
 });
     Route::get('/loginkaprodi', [KaprodiController::class, 'loginkaprodi'])->name('kaprodi_login');

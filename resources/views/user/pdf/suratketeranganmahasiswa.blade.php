@@ -317,7 +317,7 @@
                             
 
                             <div id="nama-camat">
-                                @if ($cekdata->status == 'Accepted')
+                                @if ($cekdata->status == 'Selesai')
                                 <img src="{{ $image }}" alt="Tanda Tangan" width="150px"
                                 height="100px"><br />
                                 @else

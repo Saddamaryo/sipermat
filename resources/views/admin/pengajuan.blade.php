@@ -72,28 +72,29 @@
                                             </button>
                                             @if ($item->slug != 's-lain')
                                                 @if ($item->prodi_mahasiswa == 'Ilmu Komputer')
-                                                    <a class="btn btn-primary preview-link" href="{{ url('previewilkom', $item->id) }}"
-                                                       >
+                                                    <a class="btn btn-primary preview-link"
+                                                        href="{{ url('preview', [$item->id, 'Ilmu Komputer']) }}">
                                                         <i class="bi bi-file-earmark-text">Preview</i>
                                                     </a>
                                                 @elseif ($item->prodi_mahasiswa == 'Pendidikan Matematika')
-                                                    <a class="btn btn-primary preview-link" href="{{ url('previewpenmat', $item->id) }}"
-                                                        >
+                                                    <a class="btn btn-primary preview-link"
+                                                        href="{{ url('preview', [$item->id, 'Pendidikan Matematika']) }}">
                                                         <i class="bi bi-file-earmark-text">Preview</i>
                                                     </a>
                                                 @elseif($item->prodi_mahasiswa == 'Statistika')
-                                                    <a class="btn btn-primary preview-link" href="{{ url('previewstat', $item->id) }}"
-                                                        >
+                                                    <a class="btn btn-primary preview-link"
+                                                        href="{{ url('preview', [$item->id, 'Statistika']) }}">
                                                         <i class="bi bi-file-earmark-text">Preview</i>
                                                     </a>
                                                 @else
-                                                    <a class="btn btn-primary preview-link" href="{{ url('previewmat', $item->id) }}"
-                                                        >
+                                                    <a class="btn btn-primary preview-link"
+                                                        href="{{ url('preview', [$item->id, 'Matematika']) }}">
                                                         <i class="bi bi-file-earmark-text">Preview</i>
                                                     </a>
                                                 @endif
                                             @else
                                             @endif
+
 
                                             @if ($item->file_ajuan != null)
                                                 <a href="{{ url('downloadfile_ajuan', $item->id) }}"
@@ -211,20 +212,16 @@
                                                         data-bs-toggle="modal">Upload Manual</button>
                                                     @if ($item->prodi_mahasiswa == 'Ilmu Komputer')
                                                         <a class="btn btn-primary preview-link"
-                                                            href="{{ url('previewilkomtugas', $item->id) }}"
-                                                            >Preview</a>
+                                                            href="{{ url('previewilkomtugas', $item->id) }}">Preview</a>
                                                     @elseif ($item->prodi_mahasiswa == 'Pendidikan Matematika')
                                                         <a class="btn btn-primary preview-link"
-                                                            href="{{ url('previewpenmattugas', $item->id) }}"
-                                                            >Preview</a>
+                                                            href="{{ url('previewpenmattugas', $item->id) }}">Preview</a>
                                                     @elseif($item->prodi_mahasiswa == 'Statistika')
                                                         <a class="btn btn-primary preview-link"
-                                                            href="{{ url('previewstattugas', $item->id) }}"
-                                                            >Preview</a>
+                                                            href="{{ url('previewstattugas', $item->id) }}">Preview</a>
                                                     @else
                                                         <a class="btn btn-primary preview-link"
-                                                            href="{{ url('previewmattugas', $item->id) }}"
-                                                            >Preview</a>
+                                                            href="{{ url('previewmattugas', $item->id) }}">Preview</a>
                                                     @endif
                                                 @else
                                                     <button data-bs-target="#delete_tugas{{ $item->id }}"

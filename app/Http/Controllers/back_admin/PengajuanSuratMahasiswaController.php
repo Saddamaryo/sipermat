@@ -99,7 +99,6 @@ class PengajuanSuratMahasiswaController extends Controller
             ]
         );
 
-        // Cari surat masuk berdasarkan ID
         $pengajuansurat = Pengajuansurat::find($id);
         if (!$pengajuansurat) {
             return response()->json(['message' => 'Data tidak ditemukan.'], 404);
@@ -139,6 +138,8 @@ class PengajuanSuratMahasiswaController extends Controller
         return back()->with('success', 'Berhasil melakukan update data pengajuan surat dan mengirim ke akun kaprodi');
     }
 
+
+
     public function update_tugas(Request $request, string $id)
     {
         $request->validate(
@@ -151,8 +152,7 @@ class PengajuanSuratMahasiswaController extends Controller
                 'prodi_mahasiswa' => 'required',
                 'nim_mahasiswa' => 'required',
                 'nomor_user' => 'required',
-                'nomor_urut' => '',
-                'nomor_urut_lain' => '',
+                'nomor_urut' => 'required',
                 'slug' => '',
                 'formulir1' => '',
                 'formulir2' => '',
@@ -201,7 +201,6 @@ class PengajuanSuratMahasiswaController extends Controller
             'formulir6' => $request->formulir6,
             'status' => $request->status,
             'nomor_urut' => $request->nomor_urut
-
         ]);
 
 
@@ -235,26 +234,20 @@ class PengajuanSuratMahasiswaController extends Controller
             ]
         );
 
-
-        // Cari surat masuk berdasarkan ID
         $pengajuansurat = Pengajuansurat::find($id);
         if (!$pengajuansurat) {
             return response()->json(['message' => 'Data tidak ditemukan.'], 404);
         }
 
-        // Ambil tahun saat ini
         $currentYear = Carbon::now()->year;
         $nomor_baru = $request->nomor_urut;
 
         DB::transaction(function () use ($currentYear, $nomor_baru, &$pengajuansurat, $request) {
-            // Ambil semua data yang dibuat pada tahun ini dan urutkan berdasarkan nomor_urut
             $records = Pengajuansurat::whereYear('created_at', $currentYear)->orderBy('nomor_urut')->get();
 
-            // Reset nomor urut jika tidak ada data di tahun ini
             if ($records->isEmpty() || $nomor_baru === null) {
                 $nomor_baru = 1;
             } else {
-                // Periksa jika nomor baru lebih kecil dari nomor yang ada
                 if ($nomor_baru <= $records->last()->nomor_urut) {
                     foreach ($records as $record) {
                         if ($record->nomor_urut >= $nomor_baru) {
@@ -264,15 +257,6 @@ class PengajuanSuratMahasiswaController extends Controller
                     }
                 }
             }
-
-            // Proses file upload
-            /*if ($request->hasFile('file_ajuan')) {
-                Storage::delete('public/file_ajuan/' . $pengajuansurat->file_ajuan);
-                $file_ajuan = $request->file('file_ajuan');
-                $filename = uniqid() . '.' . $file_ajuan->getClientOriginalExtension();
-                $file_ajuan->storeAs('public/file_ajuan', $filename);
-                $pengajuansurat->file_ajuan = $filename;
-            }*/
 
             // Update data
             $pengajuansurat->update([
@@ -312,6 +296,7 @@ class PengajuanSuratMahasiswaController extends Controller
                 'prodi_mahasiswa' => 'required',
                 'nim_mahasiswa' => 'required',
                 'nomor_user' => 'required',
+                'nomor_urut' => 'required',
                 'slug' => '',
                 'formulir1' => '',
                 'formulir2' => '',
@@ -327,25 +312,25 @@ class PengajuanSuratMahasiswaController extends Controller
         );
 
 
-        // Cari surat masuk berdasarkan ID
+        // surat berdasar id
         $pengajuansurat = Pengajuansurattugas::find($id);
         if (!$pengajuansurat) {
             return response()->json(['message' => 'Data tidak ditemukan.'], 404);
         }
 
-        // Ambil tahun saat ini
+        // basis tahun
         $currentYear = Carbon::now()->year;
         $nomor_baru = $request->nomor_urut;
 
         DB::transaction(function () use ($currentYear, $nomor_baru, &$pengajuansurat, $request) {
-            // Ambil semua data yang dibuat pada tahun ini dan urutkan berdasarkan nomor_urut
+            // cari surat yang pakek tahun sama
             $records = Pengajuansurat::whereYear('created_at', $currentYear)->orderBy('nomor_urut')->get();
 
-            // Reset nomor urut jika tidak ada data di tahun ini
+            //  Reset nomor jika tidak ada di taun baru
             if ($records->isEmpty() || $nomor_baru === null) {
                 $nomor_baru = 1;
             } else {
-                // Periksa jika nomor baru lebih kecil dari nomor yang ada
+                // fungsi nomor mundur
                 if ($nomor_baru <= $records->last()->nomor_urut) {
                     foreach ($records as $record) {
                         if ($record->nomor_urut >= $nomor_baru) {
@@ -356,14 +341,6 @@ class PengajuanSuratMahasiswaController extends Controller
                 }
             }
 
-            /*// Proses file upload
-            if ($request->hasFile('file_ajuan')) {
-                Storage::delete('public/file_ajuan/' . $pengajuansurat->file_ajuan);
-                $file_ajuan = $request->file('file_ajuan');
-                $filename = uniqid() . '.' . $file_ajuan->getClientOriginalExtension();
-                $file_ajuan->storeAs('public/file_ajuan', $filename);
-                $pengajuansurat->file_ajuan = $filename;
-            }*/
 
             // Update data
             $pengajuansurat->update([
@@ -397,55 +374,46 @@ class PengajuanSuratMahasiswaController extends Controller
     public function destroy(string $id)
     {
         DB::transaction(function () use ($id) {
-            // Temukan surat yang akan dihapus
             $surat = Pengajuansurat::findOrFail($id);
             if (!$surat) {
-                return response()->json(['message' => 'Data tidak ditemukan.'], 404);
+                return back()->with('error', 'Data tidak ditemukan.');
             }
             $nomor_urut_dihapus = $surat->nomor_urut;
-
-            // Path file yang akan dihapus
             $filePath = 'public/file_ajuan/' . $surat->file_ajuan;
 
-            // Hapus file dari penyimpanan
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             } else {
-                return response()->json(['message' => 'File tidak ditemukan.'], 404);
+                return back()->with('error', 'Data tidak ditemukan.');
             }
-
-            // Hapus data dari database
             $surat->delete();
-            // Kurangi nomor urut yang lebih besar dari nomor urut yang dihapus
+            // decrement nomor surat
             Pengajuansurat::where('nomor_urut', '>', $nomor_urut_dihapus)->decrement('nomor_urut');
         });
 
         return back()->with('success', 'Berhasil melakukan delete data pengajuan surat dan nomor surat terupdate otomatis');
     }
 
+
+    //delete surat tugas
     public function delete_tugas(string $id)
     {
         DB::transaction(function () use ($id) {
-            // Temukan surat yang akan dihapus
             $surat = Pengajuansurattugas::findOrFail($id);
             if (!$surat) {
-                return response()->json(['message' => 'Data tidak ditemukan.'], 404);
+                return back()->with('error', 'Data tidak ditemukan.');
             }
             $nomor_urut_dihapus = $surat->nomor_urut;
 
-            // Path file yang akan dihapus
             $filePath = 'public/file_ajuan/' . $surat->file_ajuan;
 
-            // Hapus file dari penyimpanan
             if (Storage::exists($filePath)) {
                 Storage::delete($filePath);
             } else {
-                return response()->json(['message' => 'File tidak ditemukan.'], 404);
+                return back()->with('error', 'File tidak ditemukan.');
             }
 
-            // Hapus data dari database
             $surat->delete();
-            // Kurangi nomor urut yang lebih besar dari nomor urut yang dihapus
             Pengajuansurattugas::where('nomor_urut', '>', $nomor_urut_dihapus)->decrement('nomor_urut');
         });
 
@@ -455,6 +423,7 @@ class PengajuanSuratMahasiswaController extends Controller
     }
 
 
+    //download file pengajuan dari mahasiswa
     public function downloadfile_ajuan($id)
     {
         $authenticatedUser = Auth::guard('dataadmin')->user();
@@ -471,6 +440,7 @@ class PengajuanSuratMahasiswaController extends Controller
         }
     }
 
+    //download file pengajuan dari mahasiswa
     public function downloadfile_ajuantugas($id)
     {
         $authenticatedUser = Auth::guard('dataadmin')->user();

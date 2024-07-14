@@ -26,6 +26,7 @@ class DataAdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    //buat akun dataadmin
     public function store(Request $request)
     {
         $dataadmin = $request->validate(
@@ -49,6 +50,8 @@ class DataAdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    //update dataadmin
     public function update(Request $request, string $id)
     {
         $dataadmin = $request->validate(
@@ -59,7 +62,6 @@ class DataAdminController extends Controller
                 'password' => 'required',
             ],
             [
-                // Pesan custom untuk setiap validasi
                 'nama_admin.required' => 'Nama admin harus diisi.',
                 'email.required' => 'Email harus diisi.',
                 'nomor_admin.required' => 'Nomor admin harus diisi.',
@@ -83,9 +85,11 @@ class DataAdminController extends Controller
         return view('admin.loginadmin');
     }
 
+
+
     public function login_submit(Request $request)
     {
-
+        // Validasi admin
         $request->validate(
             [
                 'email' => 'required|email',
@@ -93,6 +97,7 @@ class DataAdminController extends Controller
             ]
         );
         $credentials = $request->only('email', 'password');
+        // guard admin
         if (Auth::guard('dataadmin')->attempt($credentials)) {
             $user = Dataadmin::where('email', $request->input('email'))->first();
             Auth::guard('dataadmin')->login($user);
@@ -108,41 +113,41 @@ class DataAdminController extends Controller
         $statuspengajuan = 'Menunggu';
         $statusprocess = 'Diproses';
 
-        // Menghitung jumlah pengajuan surat yang sedang diproses
-        if (Schema::hasColumn('pengajuansurats', 'status')) {
+        //Surat biasa diproses
+        if (Schema::hasColumn('pengajuansurat', 'status')) {
             $suratmenyuratprocess = Pengajuansurat::where('status', $statusprocess)->count();
         } else {
             $suratmenyuratprocess = 0;
         }
 
-        // Menghitung jumlah pengajuan surat tugas yang sedang diproses
+        // Surat tugas diproses
         if (Schema::hasColumn('pengajuansurattugas', 'status')) {
             $surattugasprocess = Pengajuansurattugas::where('status', $statusprocess)->count();
         } else {
             $surattugasprocess = 0;
         }
 
-        // Menghitung jumlah pengajuan surat yang menunggu persetujuan
-        if (Schema::hasColumn('pengajuansurats', 'status')) {
+        // Surat menyurat yang belum dibuat
+        if (Schema::hasColumn('pengajuansurat', 'status')) {
             $suratmenyurat = Pengajuansurat::where('status', $statuspengajuan)->count();
         } else {
             $suratmenyurat = 0;
         }
 
-        // Menghitung jumlah pengajuan surat tugas yang menunggu persetujuan
+        // Surat tugas yang belum dibuat
         if (Schema::hasColumn('pengajuansurattugas', 'status')) {
             $surattugas = Pengajuansurattugas::where('status', $statuspengajuan)->count();
         } else {
             $surattugas = 0;
         }
 
-        // Menghitung total mahasiswa
+        // Total mahasiswa
         $totalmahasiswa = User::count();
 
-        // Menghitung total pengajuan surat tugas
+        // Total arsip surat tugas
         $totalsurattugas = Pengajuansurattugas::count();
 
-        // Menghitung total pengajuan surat mahasiswa
+        // Total arsip surat mhs
         $totalsuratmahasiswa = Pengajuansurat::count();
 
         return view('admin.dashboard', compact(
@@ -156,8 +161,6 @@ class DataAdminController extends Controller
             'totalsuratmahasiswa'
         ));
     }
-
-
 
     public function logout()
     {
